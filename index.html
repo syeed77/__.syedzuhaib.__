@@ -1,0 +1,1504 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SYED BOOK SHOP</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<style>
+    body {
+      font-family: 'Rubik', sans-serif; -webkit-font-smoothing: antialiased; font-smooth: always;
+      background-color: #000;
+      color: #fff;
+      scroll-behavior: smooth;
+    }
+    .navbar {
+      background-color: #ffc107;
+    }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 2rem;
+      color: #000 !important;
+    }
+    .nav-link {
+      color: #000 !important;
+      font-size: 1.1rem;
+    }
+    .hero {
+      padding: 8rem 2rem;
+      background: linear-gradient(135deg, #000000, #ffc107);
+      color: white;
+      text-align: center;
+      transition: all 0.5s ease;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+    }
+    .hero p {
+      font-size: 1.3rem;
+    }
+    .btn-yellow {
+      background-color: #ffc107;
+      color: black;
+      font-weight: 600;
+      transition: transform 0.3s;
+    }
+    .btn-yellow:hover {
+      transform: scale(1.05);
+    }
+    .hidden-section {
+      display: none;
+      padding: 2rem;
+      background-color: #111;
+      border-radius: 10px;
+      margin-top: 2rem;
+    }
+    
+.book-card {
+  background-color: #222;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 1rem 0;
+  transition: transform 0.3s ease;
+  animation: fadeCardIn 0.4s ease-in-out;
+}
+
+@keyframes fadeCardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+    .book-card:hover {
+      transform: translateY(-5px);
+      background-color: #333;
+    }
+    .search-bar {
+      margin-top: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 4rem;
+      background: #ffc107;
+      color: #000;
+      font-weight: bold;
+    }
+  
+#cartPanel {
+  transition: transform 0.4s ease;
+  transform: translateX(100%);
+}
+#cartPanel.visible {
+  transform: translateX(0);
+}
+
+#cartToggleBtn {
+  position: fixed;
+  top: 5%;
+  right: 0;
+  background: #ffc107;
+  color: #000;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  z-index: 1100;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+#cartToggleBtn:hover {
+  background: #e0a800;
+}
+.cart-btn {
+  margin: 0 4px;
+  padding: 0 6px;
+  background: #ffc107;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+.cart-btn:hover {
+  background: #e0a800;
+}
+
+body.light-mode {
+  background-color: #fff;
+  color: #000;
+}
+body.light-mode 
+.book-card {
+  background-color: #222;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 1rem 0;
+  transition: transform 0.3s ease;
+  animation: fadeCardIn 0.4s ease-in-out;
+}
+
+@keyframes fadeCardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+body.light-mode .navbar,
+body.light-mode footer {
+  background-color: #000;
+  color: #ffc107;
+}
+body.light-mode .nav-link,
+body.light-mode .navbar-brand {
+  color: #ffc107 !important;
+}
+
+  #greetingOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #000000, #ffc107);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    flex-direction: column;
+    animation: fadeIn 1s ease-in-out;
+  }
+  #greetingText {
+    font-family: 'AKIRA Expanded', sans-serif;
+    font-size: 3rem;
+    text-align: center;
+    animation: pulseGlow 2s infinite;
+  }
+  #closeGreeting {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    background: none;
+    border: 2px solid #fff;
+    padding: 0.5rem 1.2rem;
+    border-radius: 30px;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.4s;
+    animation: enterGlow 2s infinite;
+  }
+  #closeGreeting:hover {
+    background: #fff;
+    color: #000;
+    transform: scale(1.05);
+  }
+  .floating-book {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: url('https://cdn-icons-png.flaticon.com/512/29/29302.png') no-repeat center/contain;
+    animation: floatBook 8s linear infinite;
+    opacity: 0.3;
+  }
+  @keyframes floatBook {
+    0% { transform: translateY(100vh) rotate(0deg); left: 10%; }
+    50% { transform: translateY(50vh) rotate(180deg); }
+    100% { transform: translateY(-10vh) rotate(360deg); left: 90%; }
+  }
+  @keyframes pulseGlow {
+    0% { text-shadow: 0 0 5px #ffc107; }
+    50% { text-shadow: 0 0 20px #ffeb3b; }
+    100% { text-shadow: 0 0 5px #ffc107; }
+  }
+  @keyframes enterGlow {
+    0% { box-shadow: 0 0 10px #ffc107; }
+    50% { box-shadow: 0 0 25px #ffeb3b; transform: scale(1.05); }
+    100% { box-shadow: 0 0 10px #ffc107; }
+  }
+  .typing-indicator {
+    font-style: italic;
+    color: #ffc107;
+    animation: blink 1s infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+  #chatbotPanel {
+    width: 90%;
+    right: 5%;
+  }
+  #greetingText {
+    font-size: 2rem !important;
+  }
+}
+
+@media (max-width: 576px) {
+  #cartToggleBtn {
+    top: auto;
+    bottom: 90px;
+    right: 10px;
+    padding: 0.4rem 0.8rem;
+  }
+  #chatbotPanel {
+    bottom: 100px;
+  }
+}
+
+
+
+.book-card {
+  background-color: #222;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 1rem 0;
+  transition: transform 0.3s ease;
+  animation: fadeCardIn 0.4s ease-in-out;
+}
+
+@keyframes fadeCardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeSlideUp {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+.btn-yellow:hover {
+  transform: scale(1.05);
+  animation: bounce 0.3s;
+}
+@keyframes bounce {
+  0% { transform: scale(1.05); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1.05); }
+}
+#chatbotPanel {
+  transition: opacity 0.4s ease;
+  opacity: 0;
+}
+#chatbotPanel.show {
+  display: block !important;
+  opacity: 1;
+}
+
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: none;
+}
+
+
+/* Parallax hero background */
+.hero {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Page fade in effect */
+body {
+  opacity: 0;
+  animation: fadeInPage 1s ease forwards;
+}
+@keyframes fadeInPage {
+  to {
+    opacity: 1;
+  }
+}
+
+
+#chatbotBtn {
+  background: linear-gradient(135deg, #ffc107, #ff9800);
+  width: 64px;
+  height: 64px;
+  font-size: 30px;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(255, 193, 7, 0.8);
+}
+
+#chatbotPanel {
+  background: #1c1c1c;
+  border: 2px solid #ffc107;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 370px;
+  padding: 1rem;
+  bottom: 90px;
+  right: 20px;
+  font-family: 'Rubik', sans-serif;
+}
+
+#chatLog {
+  background: #282828;
+  height: 220px;
+  overflow-y: auto;
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+
+#chatLog div {
+  margin-bottom: 8px;
+}
+
+#chatInput {
+  background: #1e1e1e;
+  border: 1px solid #ffc107;
+  border-radius: 10px;
+  padding: 10px;
+  color: white;
+  width: 100%;
+  font-size: 1rem;
+}
+
+#chatInput::placeholder {
+  color: #aaa;
+}
+
+.typing-indicator {
+  font-style: italic;
+  color: #ffc107;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+
+#chatLog {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #282828;
+  padding: 12px;
+  border-radius: 12px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.chat-bubble {
+  padding: 10px 14px;
+  border-radius: 18px;
+  max-width: 80%;
+  word-wrap: break-word;
+  display: inline-block;
+  line-height: 1.4;
+}
+
+.user-bubble {
+  background: #ffc107;
+  color: #000;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.bot-bubble {
+  background: #3a3a3a;
+  color: #fff;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+#chatbotPanel {
+  display: none;
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 100%;
+  max-width: 380px;
+  background: #1c1c1c;
+  border: 2px solid #ffc107;
+  border-radius: 20px;
+  padding: 1rem;
+  color: white;
+  font-family: 'Rubik', sans-serif;
+  box-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
+  transition: all 0.4s ease;
+  opacity: 0;
+}
+#chatbotPanel.show {
+  display: block;
+  opacity: 1;
+}
+
+
+@import url('https://fonts.cdnfonts.com/css/akira-expanded');
+
+body, h1, h2, h3, h4, h5, h6, .navbar-brand, .btn, .book-card, #greetingText {
+  font-family: 'AKIRA Expanded', sans-serif !important;
+  letter-spacing: 0.5px;
+  font-weight: bold;
+}
+
+.section-title, .hero h1 {
+  animation: fadeZoomIn 1s ease-out;
+}
+
+.btn-yellow, .btn-outline-light {
+  transition: all 0.3s ease;
+}
+.btn-yellow:hover, .btn-outline-light:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 10px #ffc107;
+}
+
+.hidden-section {
+  animation: fadeSlide 0.8s ease-in-out;
+}
+
+@keyframes fadeZoomIn {
+  0% { opacity: 0; transform: scale(0.85); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+.book-card {
+  background-color: #222;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 1rem 0;
+  transition: transform 0.3s ease;
+  animation: fadeCardIn 0.4s ease-in-out;
+}
+
+@keyframes fadeCardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+@keyframes cardPop {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;700&family=Orbitron:wght@600&family=Rajdhani:wght@700&display=swap');
+
+body {
+  font-family: 'Rubik', sans-serif;
+  transition: background 0.6s ease, color 0.6s ease;
+}
+
+h1, h2, h3, .navbar-brand, .btn, #greetingText {
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.8px;
+  animation: fadePopIn 1.2s ease both;
+}
+
+.book-card, .hidden-section, .hero, footer, .search-bar, .nav-link, .form-control {
+  animation: riseFade 1s ease both;
+}
+
+.btn-yellow, .btn-outline-light {
+  transition: all 0.3s ease;
+}
+.btn-yellow:hover, .btn-outline-light:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 12px #ffc107;
+}
+
+@keyframes fadePopIn {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes riseFade {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+
+@keyframes typing {
+  0% { width: 0 }
+  40% { width: 100% }
+  60% { width: 100% }
+  100% { width: 0 }
+}
+@keyframes blinkCaret {
+  0%, 100% { border-color: transparent }
+  50% { border-color: #ffc107 }
+}
+.typing-text {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #ffc107;
+  width: 0;
+  display: inline-block;
+  animation: typing 4s steps(16) infinite, blinkCaret 0.75s step-end infinite;
+}
+
+
+@keyframes typing {
+  0% { width: 0 }
+  45% { width: 100% }
+  55% { width: 100% }
+  100% { width: 0 }
+}
+@keyframes blinkCaret {
+  0%, 100% { border-color: transparent }
+  50% { border-color: #ffc107 }
+}
+.typing-text {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #ffc107;
+  width: 0;
+  display: inline-block;
+  animation: typing 6s steps(16, end) infinite, blinkCaret 1s step-end infinite;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 60px;
+}
+
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+  .btn {
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+  }
+  .typing-text {
+    font-size: 1.5rem;
+  }
+  #chatbotPanel {
+    width: 90%;
+    right: 5%;
+    bottom: 100px;
+  }
+  #cartPanel {
+    width: 90%;
+    right: 0;
+    top: 12%;
+  }
+  .book-card {
+    font-size: 0.95rem;
+    padding: 0.75rem;
+  }
+  .navbar-brand {
+    font-size: 1.4rem;
+  }
+  #cartToggleBtn {
+    top: auto;
+    bottom: 90px;
+    right: 10px;
+    padding: 0.5rem 0.8rem;
+  }
+}
+
+
+@media (max-width: 768px) {
+  nav.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1050;
+  }
+  .hidden-section, .book-card, .search-bar {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  .book-card h5 {
+    font-size: 1rem;
+  }
+  .book-card button {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  .btn-yellow, .btn-outline-light {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+  #chatInput {
+    font-size: 0.95rem;
+    padding: 0.6rem;
+  }
+  #chatLog {
+    max-height: 180px;
+  }
+  #cartToggleBtn {
+    font-size: 0.9rem;
+  }
+  footer {
+    font-size: 0.9rem;
+    padding: 1rem;
+  }
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+}
+
+
+/* Premium background */
+body {
+  background: linear-gradient(180deg, #000000 0%, #111111 70%, #0d0d0d 100%);
+}
+
+/* Book Card Premium Glow */
+.book-card {
+  background: linear-gradient(145deg, #1b1b1b, #101010);
+  box-shadow: 0 8px 24px rgba(255, 193, 7, 0.2);
+  border: 1px solid #333;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(30px);
+}
+.book-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 32px rgba(255, 193, 7, 0.4);
+}
+
+/* Section Title Glow */
+.section-title, h2 {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #ffc107;
+  text-shadow: 0 0 8px rgba(255, 193, 7, 0.6);
+}
+
+/* Button Glow */
+.btn-yellow:hover {
+  box-shadow: 0 0 12px #ffc107, 0 0 20px #ffd740;
+}
+
+/* Smooth Reveal Animation */
+.book-card.reveal, .hidden-section.reveal {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+.book-card, .hidden-section {
+  transition: all 0.8s ease;
+}
+
+/* Bottom Nav for Mobile */
+.mobile-nav {
+  display: none;
+}
+@media (max-width: 768px) {
+  .mobile-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #000;
+    display: flex;
+    justify-content: space-around;
+    border-top: 2px solid #ffc107;
+    z-index: 1000;
+  }
+  .mobile-nav button {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: #ffc107;
+    padding: 1rem;
+  }
+}
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><link href="manifest.json" rel="manifest"/><link href="https://fonts.cdnfonts.com/css/akira-expanded" rel="stylesheet"/><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+</head>
+<body><button class="btn btn-sm btn-dark position-fixed" onclick="toggleTheme()" style="top:1rem; left:1rem; z-index:1100;">🌓 Theme</button><div id="cartToggleBtn" onclick="toggleCart()">🛒</div>
+<nav class="navbar navbar-expand-lg navbar-light">
+<div class="container-fluid">
+<a class="navbar-brand mx-auto" href="#">SYED BOOK SHOP</a>
+</div>
+</nav>
+<header class="hero">
+<h1><span class='typing-text'>SYED BOOK SHOP</span></h1>
+<p>Discover stationary items with ease and elegance.</p>
+<div class="search-bar input-group">
+<input class="form-control" id="searchInput" oninput="searchBooks()" placeholder="Search books..." type="text"/>
+<button class="btn btn-yellow" onclick="searchBooks()">Search</button>
+</div>
+<div class="mt-4" id="searchResults"></div>
+<div class="mt-4">
+<button class="btn btn-yellow m-2" onclick="toggleSection('books')">Books</button>
+<button class="btn btn-yellow m-2" onclick="toggleSection('about')">About Us</button>
+<button class="btn btn-yellow m-2" onclick="toggleSection('contact')">Contact</button>
+</div>
+</header>
+<section class="hidden-section container" id="books">
+<h2 class="text-center mb-4">Books</h2>
+<div class="text-center mb-3">
+<button class="btn btn-outline-light m-2" onclick="filterBooks('NCERT')">NCERT</button>
+<button class="btn btn-outline-light m-2" onclick="filterBooks('MTG')">MTG Foundation Course</button>
+<button class="btn btn-outline-light m-2" onclick="filterBooks('JKBOSE')">JKBOSE</button>
+</div>
+<div id="bookList"></div>
+</section>
+<section class="hidden-section container" id="about">
+<h2>About Us</h2>
+<p>SYED BOOK SHOP is your trusted destination for high-quality books including NCERT, MTG Foundation Course, and JKBOSE books. We bring to you curated collections for all classes from pre-primary to 12th grade. Experience seamless shopping with our modern and dynamic platform.</p>
+</section>
+<section class="hidden-section container" id="contact">
+<h2>Contact</h2>
+<p>Email: syednisarahmadx@gmail.com</p>
+<p>Phone: 8825063547</p>
+<p>Address: Ranipora, Anantnag, 192201</p>
+</section>
+<footer>
+  © 2025 SYED BOOK SHOP. All rights reserved.
+</footer>
+<script>
+const allBooks = [
+  { title: "Rimjhim Bhag I (Hindi)", category: "NCERT", price: "₹50" },
+      { title: "Marigold Book I (English)", category: "NCERT", price: "₹50" },
+        { title: "MTG Foundation Course 8th 2024 (PCB)", category: "MTG", price: "₹950" },
+  { title: "English Class 6", category: "JKBOSE", price: "₹80" },
+  { title: "English Class 7", category: "JKBOSE", price: "₹90" },
+  { title: "English Class 8", category: "JKBOSE", price: "₹95" },
+  { title: "English Class 9", category: "JKBOSE", price: "₹100" },
+  { title: "English Class 10", category: "JKBOSE", price: "₹110" },
+  { title: "English Class 11", category: "JKBOSE", price: "₹120" },
+  { title: "English Class 12", category: "JKBOSE", price: "₹130" },
+  { title: "Urdu Class 6", category: "JKBOSE", price: "₹60" },
+  { title: "Urdu Class 7", category: "JKBOSE", price: "₹70" },
+  { title: "Urdu Class 8", category: "JKBOSE", price: "₹75" },
+  { title: "Urdu Class 9", category: "JKBOSE", price: "₹85" },
+  { title: "Urdu Class 10", category: "JKBOSE", price: "₹90" },
+  { title: "Urdu Class 11", category: "JKBOSE", price: "₹95" },
+  { title: "Urdu Class 12", category: "JKBOSE", price: "₹100" },
+  { title: "Kashmiri Class 6", category: "JKBOSE", price: "₹50" },
+  { title: "Kashmiri Class 7", category: "JKBOSE", price: "₹60" },
+  { title: "Kashmiri Class 8", category: "JKBOSE", price: "₹65" },
+  { title: "Kashmiri Class 9", category: "JKBOSE", price: "₹70" },
+  { title: "Kashmiri Class 10", category: "JKBOSE", price: "₹75" },
+  { title: "Kashmiri Class 11", category: "JKBOSE", price: "₹80" },
+  { title: "Kashmiri Class 12", category: "JKBOSE", price: "₹85" },
+  { title: "Mathematics Class 6", category: "JKBOSE", price: "₹90" },
+  { title: "Mathematics Class 7", category: "JKBOSE", price: "₹100" },
+  { title: "Mathematics Class 8", category: "JKBOSE", price: "₹110" },
+  { title: "Mathematics Class 9", category: "JKBOSE", price: "₹120" },
+  { title: "Mathematics Class 10", category: "JKBOSE", price: "₹130" },
+  { title: "Mathematics Class 11", category: "JKBOSE", price: "₹140" },
+  { title: "Mathematics Class 12", category: "JKBOSE", price: "₹150" },
+  { title: "Science Class 6", category: "JKBOSE", price: "₹100" },
+  { title: "Science Class 7", category: "JKBOSE", price: "₹110" },
+  { title: "Science Class 8", category: "JKBOSE", price: "₹120" },
+  { title: "Science Class 9", category: "JKBOSE", price: "₹130" },
+  { title: "Science Class 10", category: "JKBOSE", price: "₹140" },
+  { title: "Science Class 11", category: "JKBOSE", price: "₹150" },
+  { title: "Science Class 12", category: "JKBOSE", price: "₹160" },
+  { title: "History Class 6", category: "JKBOSE", price: "₹92" },
+  { title: "History Class 7", category: "JKBOSE", price: "₹94" },
+  { title: "History Class 8", category: "JKBOSE", price: "₹96" },
+  { title: "History Class 9", category: "JKBOSE", price: "₹98" },
+  { title: "History Class 10", category: "JKBOSE", price: "₹100" },
+  { title: "Geography Class 6", category: "JKBOSE", price: "₹92" },
+  { title: "Geography Class 7", category: "JKBOSE", price: "₹94" },
+  { title: "Geography Class 8", category: "JKBOSE", price: "₹96" },
+  { title: "Geography Class 9", category: "JKBOSE", price: "₹98" },
+  { title: "Geography Class 10", category: "JKBOSE", price: "₹100" },
+  { title: "Civics Class 6", category: "JKBOSE", price: "₹92" },
+  { title: "Civics Class 7", category: "JKBOSE", price: "₹94" },
+  { title: "Civics Class 8", category: "JKBOSE", price: "₹96" },
+  { title: "Civics Class 9", category: "JKBOSE", price: "₹98" },
+  { title: "Civics Class 10", category: "JKBOSE", price: "₹100" },
+  { title: "Political Science Class 11", category: "JKBOSE", price: "₹240" },
+  { title: "Political Science Class 12", category: "JKBOSE", price: "₹250" },
+  { title: "Geography Class 11", category: "JKBOSE", price: "₹240" },
+  { title: "Geography Class 12", category: "JKBOSE", price: "₹250" },
+  { title: "History Class 11", category: "JKBOSE", price: "₹240" },
+  { title: "History Class 12", category: "JKBOSE", price: "₹250" },
+  { title: "Economics Class 11", category: "JKBOSE", price: "₹240" },
+  { title: "Economics Class 12", category: "JKBOSE", price: "₹250" }
+];
+
+function toggleSection(sectionId) {
+  document.querySelectorAll('.hidden-section').forEach(sec => {
+    sec.style.display = 'none';
+  });
+  const selected = document.getElementById(sectionId);
+  selected.style.display = 'block';
+  selected.scrollIntoView({ behavior: 'smooth' });
+}
+
+function renderBooks(filter = '') {
+  const container = document.getElementById('bookList');
+  container.innerHTML = '';
+  const filtered = allBooks.filter(book => book.category.toLowerCase().includes(filter.toLowerCase()));
+  filtered.forEach(book => {
+    const div = document.createElement('div');
+    div.className = 'book-card scroll-reveal';
+    div.innerHTML = `<h5>${book.title}</h5><p>${book.category}</p><strong>${book.price}</strong><br/><button class='btn btn-sm btn-yellow mt-2' onclick='addToCart(${JSON.stringify(book)})'>Add to Cart</button>`;
+    container.appendChild(div);
+  });
+}
+
+function filterBooks(cat) {
+  renderBooks(cat);
+}
+
+function searchBooks() {
+  const term = document.getElementById('searchInput').value.toLowerCase();
+  const results = allBooks.filter(book => book.title.toLowerCase().includes(term));
+  const container = document.getElementById('searchResults');
+  container.innerHTML = '';
+  results.forEach(book => {
+    const div = document.createElement('div');
+    div.className = 'book-card scroll-reveal';
+    div.innerHTML = `<h5>${book.title}</h5><p>${book.category}</p><strong>${book.price}</strong><br/><button class='btn btn-sm btn-yellow mt-2' onclick='addToCart(${JSON.stringify(book)})'>Add to Cart</button>`;
+    container.appendChild(div);
+  });
+}
+
+
+let cart = [];
+
+function addToCart(book) {
+  cart.push(book);
+  updateCart();
+}
+
+function updateCart() {
+  const cartItems = document.getElementById("cartItems");
+  const cartTotal = document.getElementById("cartTotal");
+  cartItems.innerHTML = '';
+  let total = 0;
+
+  cart.forEach((item, index) => {
+    const priceNum = parseInt(item.price.replace(/[^\d]/g, ""));
+    total += priceNum;
+
+    const div = document.createElement('div');
+    div.innerHTML = `${item.title} - ${item.price} <button onclick="removeFromCart(${index})" style="color:red;">✖</button>`;
+    cartItems.appendChild(div);
+  });
+
+  cartTotal.textContent = total;
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  updateCart();
+}
+
+async function downloadInvoice() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(18);
+  doc.text("SYED BOOK SHOP", 20, 20);
+  doc.setFontSize(12);
+  let y = 40;
+  let total = 0;
+  cart.forEach((item, i) => {
+    const price = parseInt(item.price.replace(/[^\d]/g, ""));
+    total += price;
+    doc.text(`${i + 1}. ${item.title} - ${item.price}`, 20, y);
+    y += 10;
+  });
+  doc.text(`Total: ₹${total}`, 20, y + 10);
+  doc.save("SYED_BOOK_SHOP_Invoice.pdf");
+}
+
+
+window.onload = function() {
+  const savedCart = localStorage.getItem("syed_cart");
+  if (savedCart) {
+    cart = JSON.parse(savedCart);
+    updateCart();
+  }
+}
+
+function addToCart(book) {
+  const existing = cart.find(item => item.title === book.title);
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ ...book, qty: 1 });
+  }
+  updateCart();
+}
+
+function updateCart() {
+  const cartItems = document.getElementById("cartItems");
+  const cartTotal = document.getElementById("cartTotal");
+  const cartPanel = document.getElementById("cartPanel");
+  cartItems.innerHTML = '';
+  let total = 0;
+
+  if (cart.length > 0) {
+    cartPanel.classList.add("visible");
+  } else {
+    cartPanel.classList.remove("visible");
+  }
+
+  cart.forEach((item, index) => {
+    const priceNum = parseInt(item.price.replace(/[^\d]/g, ""));
+    total += priceNum * item.qty;
+
+    const div = document.createElement('div');
+    div.innerHTML = `
+      ${item.title} - ${item.price} × ${item.qty}
+      <button onclick="changeQty(${index}, 1)">+</button>
+      <button onclick="changeQty(${index}, -1)">−</button>
+      <button onclick="removeFromCart(${index})" style="color:red;">✖</button>`;
+    cartItems.appendChild(div);
+  });
+
+  cartTotal.textContent = total;
+  localStorage.setItem("syed_cart", JSON.stringify(cart));
+}
+
+function changeQty(index, delta) {
+  cart[index].qty += delta;
+  if (cart[index].qty <= 0) {
+    cart.splice(index, 1);
+  }
+  updateCart();
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  updateCart();
+}
+
+async function downloadInvoice() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(18);
+  doc.text("SYED BOOK SHOP", 20, 20);
+  doc.setFontSize(12);
+  let y = 40;
+  let total = 0;
+  cart.forEach((item, i) => {
+    const price = parseInt(item.price.replace(/[^\d]/g, ""));
+    total += price * item.qty;
+    doc.text(`${i + 1}. ${item.title} - ${item.price} × ${item.qty}`, 20, y);
+    y += 10;
+  });
+  doc.text(`Total: ₹${total}`, 20, y + 10);
+  doc.save("SYED_BOOK_SHOP_Invoice.pdf");
+}
+
+
+function toggleCart() {
+  const cartPanel = document.getElementById("cartPanel");
+  cartPanel.classList.toggle("visible");
+}
+
+
+function toggleTheme() {
+  document.body.classList.toggle('light-mode');
+  localStorage.setItem('syed_theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('syed_theme');
+  if (savedTheme === 'light') {
+    document.body.classList.add('light-mode');
+  }
+});
+</script>
+<div id="cartPanel" style="position: fixed; top: 10%; right: 0; background: #111; color: white; padding: 1rem; width: 300px; border-left: 2px solid #ffc107; z-index: 1000;">
+<h4>🛒 Cart</h4>
+<div id="cartItems"></div>
+<hr/>
+<p><strong>Total: ₹<span id="cartTotal">0</span></strong></p>
+<button class="btn btn-yellow" onclick="downloadInvoice()">Download Invoice (PDF)</button>
+</div>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(() => {
+    console.log("Service Worker Registered");
+  });
+}
+</script>
+<!-- Floating Chatbot Button & Panel -->
+<style>
+#chatbotBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #ffc107;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 28px;
+  cursor: pointer;
+  animation: pulse 2s infinite;
+  z-index: 1001;
+  box-shadow: 0 0 10px #ffc107;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 10px #ffc107; }
+  50% { box-shadow: 0 0 20px #ffeb3b; }
+  100% { box-shadow: 0 0 10px #ffc107; }
+}
+
+#chatbotPanel {
+  display: none;
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 360px;
+  background: #141414;
+  border: 2px solid #ffc107;
+  border-radius: 18px;
+  padding: 1rem;
+  color: white;
+  font-family: 'Rubik', sans-serif; -webkit-font-smoothing: antialiased; font-smooth: always;
+  z-index: 1001;
+  box-shadow: 0 0 20px rgba(255, 193, 7, 0.4);
+}
+
+#chatLog {
+  height: 200px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  background: #1e1e1e;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+#chatInput {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  background: #2b2b2b;
+  color: #fff;
+}
+
+#chatInput::placeholder {
+  color: #aaa;
+}
+
+#chatInput:focus {
+  outline: 2px solid #ffc107;
+}
+
+.typing-indicator {
+  font-style: italic;
+  color: #ffc107;
+  animation: blink 1s infinite;
+}
+
+  display: none;
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 320px;
+  background: #111;
+  border: 2px solid #ffc107;
+  border-radius: 10px;
+  padding: 1rem;
+  color: white;
+  z-index: 1001;
+}
+#chatLog {
+  height: 160px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+#chatInput {
+  width: 100%;
+  padding: 6px;
+  border-radius: 5px;
+  border: none;
+}
+
+  #greetingOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #000000, #ffc107);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    flex-direction: column;
+    animation: fadeIn 1s ease-in-out;
+  }
+  #greetingText {
+    font-family: 'AKIRA Expanded', sans-serif;
+    font-size: 3rem;
+    text-align: center;
+    animation: pulseGlow 2s infinite;
+  }
+  #closeGreeting {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    background: none;
+    border: 2px solid #fff;
+    padding: 0.5rem 1.2rem;
+    border-radius: 30px;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.4s;
+    animation: enterGlow 2s infinite;
+  }
+  #closeGreeting:hover {
+    background: #fff;
+    color: #000;
+    transform: scale(1.05);
+  }
+  .floating-book {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: url('https://cdn-icons-png.flaticon.com/512/29/29302.png') no-repeat center/contain;
+    animation: floatBook 8s linear infinite;
+    opacity: 0.3;
+  }
+  @keyframes floatBook {
+    0% { transform: translateY(100vh) rotate(0deg); left: 10%; }
+    50% { transform: translateY(50vh) rotate(180deg); }
+    100% { transform: translateY(-10vh) rotate(360deg); left: 90%; }
+  }
+  @keyframes pulseGlow {
+    0% { text-shadow: 0 0 5px #ffc107; }
+    50% { text-shadow: 0 0 20px #ffeb3b; }
+    100% { text-shadow: 0 0 5px #ffc107; }
+  }
+  @keyframes enterGlow {
+    0% { box-shadow: 0 0 10px #ffc107; }
+    50% { box-shadow: 0 0 25px #ffeb3b; transform: scale(1.05); }
+    100% { box-shadow: 0 0 10px #ffc107; }
+  }
+  .typing-indicator {
+    font-style: italic;
+    color: #ffc107;
+    animation: blink 1s infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+</style>
+<button id="chatbotBtn" onclick="toggleChatbot()">💬</button>
+<div id="chatbotPanel">
+<div id="chatLog">🤖 Hello! Ask me about book availability or study help.<br/></div>
+<input id="chatInput" onkeydown="if(event.key==='Enter')chatbotReply()" placeholder="Type your question..."/>
+</div>
+<script>
+function toggleChatbot() {
+  const panel = document.getElementById("chatbotPanel");
+  panel.classList.toggle("show");
+}
+
+
+function chatbotReply() {
+  const input = document.getElementById("chatInput");
+  const log = document.getElementById("chatLog");
+  const msg = input.value.trim();
+  if (!msg) return;
+  log.innerHTML += `<div class='chat-bubble user-bubble'>${msg}</div>`;
+
+  const typingMsg = document.createElement('div');
+  typingMsg.id = 'typingIndicator';
+  typingMsg.className = 'typing-indicator';
+  typingMsg.innerText = '🤖 SyedBot is thinking...';
+  log.appendChild(typingMsg);
+  log.scrollTop = log.scrollHeight;
+  input.value = "";
+
+  setTimeout(() => {
+    typingMsg.remove();
+    const m = msg.toLowerCase();
+    const subjects = ["math", "science", "english", "urdu", "kashmiri", "history", "geography", "civics", "economics", "political", "foundation", "sst"];
+    const boards = ["ncert", "mtg", "jkbose"];
+    const detectedSubjects = subjects.filter(s => m.includes(s));
+    const detectedBoards = boards.filter(b => m.includes(b));
+    const classMatch = m.match(/class\s*(\d{1,2})/);
+    let filtered = allBooks;
+
+    if (detectedBoards.length) {
+      filtered = filtered.filter(book => detectedBoards.some(b => book.category.toLowerCase().includes(b)));
+    }
+    if (classMatch) {
+      filtered = filtered.filter(book => book.title.toLowerCase().includes("class " + classMatch[1]));
+    }
+    if (detectedSubjects.length) {
+      filtered = filtered.filter(book => detectedSubjects.some(sub => book.title.toLowerCase().includes(sub)));
+    }
+
+    let response = "";
+    if (filtered.length > 0) {
+      response += `📚 Found ${filtered.length} book(s):<br/>`;
+      response += filtered.slice(0, 5).map(b => `✅ ${b.title} – ${b.price}`).join("<br/>");
+      if (filtered.length > 5) response += "<br/>...and more.";
+    } else {
+      response = "❌ Sorry, I couldn't find matching books. Try including class, subject, or board name.";
+    }
+
+    const botBubble = document.createElement('div');
+    botBubble.className = 'chat-bubble bot-bubble';
+    botBubble.innerHTML = response;
+    log.appendChild(botBubble);
+    log.scrollTop = log.scrollHeight;
+  }, 1200);
+}
+
+</script>
+<!-- Greeting Overlay -->
+<div id="greetingOverlay">
+<div class="floating-book" style="top:10%; left:5%; animation-delay: 0s;"></div>
+<div class="floating-book" style="top:20%; left:25%; animation-delay: 1s;"></div>
+<div class="floating-book" style="top:30%; left:45%; animation-delay: 2s;"></div>
+<div class="floating-book" style="top:40%; left:65%; animation-delay: 3s;"></div>
+<div class="floating-book" style="top:50%; left:85%; animation-delay: 4s;"></div>
+<div id="greetingText" style="font-family: 'AKIRA Expanded', sans-serif; font-size: 3rem; text-align: center; animation: pulseGlow 2s infinite;">WELCOME TO<br/>SYED BOOK SHOP</div>
+<button id="closeGreeting" onclick="closeGreeting()">Enter</button>
+</div>
+<!-- Floating Chatbot Button -->
+<button id="chatbotBtn" onclick="toggleChatbot()">💬</button>
+<!-- Chatbot Panel -->
+<div id="chatbotPanel">
+<div id="chatLog">🤖 Hello! Ask me about book availability or study help.<br/></div>
+<input id="chatInput" onkeydown="if(event.key==='Enter')chatbotReply()" placeholder="Type your question..."/>
+</div>
+<script>
+  function closeGreeting() {
+    const overlay = document.getElementById("greetingOverlay");
+    overlay.style.transition = "opacity 1s ease";
+    overlay.style.opacity = 0;
+    setTimeout(() => overlay.style.display = "none", 1000);
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      if (document.getElementById("greetingOverlay").style.display !== "none") {
+        closeGreeting();
+      }
+    }, 6000);
+  });
+
+  function toggleChatbot() {
+    const panel = document.getElementById("chatbotPanel");
+    panel.classList.toggle("show");
+  }
+
+  
+function chatbotReply() {
+  const input = document.getElementById("chatInput");
+  const log = document.getElementById("chatLog");
+  const msg = input.value.trim();
+  if (!msg) return;
+  log.innerHTML += `<div class='chat-bubble user-bubble'>${msg}</div>`;
+
+  const typingMsg = document.createElement('div');
+  typingMsg.id = 'typingIndicator';
+  typingMsg.className = 'typing-indicator';
+  typingMsg.innerText = '🤖 SyedBot is thinking...';
+  log.appendChild(typingMsg);
+  log.scrollTop = log.scrollHeight;
+  input.value = "";
+
+  setTimeout(() => {
+    typingMsg.remove();
+    const m = msg.toLowerCase();
+    const subjects = ["math", "science", "english", "urdu", "kashmiri", "history", "geography", "civics", "economics", "political", "foundation", "sst"];
+    const boards = ["ncert", "mtg", "jkbose"];
+    const detectedSubjects = subjects.filter(s => m.includes(s));
+    const detectedBoards = boards.filter(b => m.includes(b));
+    const classMatch = m.match(/class\s*(\d{1,2})/);
+    let filtered = allBooks;
+
+    if (detectedBoards.length) {
+      filtered = filtered.filter(book => detectedBoards.some(b => book.category.toLowerCase().includes(b)));
+    }
+    if (classMatch) {
+      filtered = filtered.filter(book => book.title.toLowerCase().includes("class " + classMatch[1]));
+    }
+    if (detectedSubjects.length) {
+      filtered = filtered.filter(book => detectedSubjects.some(sub => book.title.toLowerCase().includes(sub)));
+    }
+
+    let response = "";
+    if (filtered.length > 0) {
+      response += `📚 Found ${filtered.length} book(s):<br/>`;
+      response += filtered.slice(0, 5).map(b => `✅ ${b.title} – ${b.price}`).join("<br/>");
+      if (filtered.length > 5) response += "<br/>...and more.";
+    } else {
+      response = "❌ Sorry, I couldn't find matching books. Try including class, subject, or board name.";
+    }
+
+    const botBubble = document.createElement('div');
+    botBubble.className = 'chat-bubble bot-bubble';
+    botBubble.innerHTML = response;
+    log.appendChild(botBubble);
+    log.scrollTop = log.scrollHeight;
+  }, 1200);
+}
+
+</script>
+
+<div id="chatbotIconContainer" onclick="toggleChatbot()" style="position: fixed; bottom: 20px; right: 20px; z-index: 1002; cursor: pointer;">
+<img alt="Bot Avatar" src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" style="width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 0 15px #ffc107; animation: pulse 2s infinite;"/>
+<div id="botGreetingBubble" style="display:none; position: absolute; bottom: 70px; right: 0; background: #1c1c1c; color: #ffc107; padding: 0.6rem 1rem; border-radius: 15px; box-shadow: 0 0 10px rgba(255,193,7,0.6); font-size: 0.9rem; white-space: nowrap;">Hi, how can I help you? 😊</div>
+</div>
+
+<script>
+setTimeout(() => {
+  const bubble = document.getElementById("botGreetingBubble");
+  if (bubble) {
+    bubble.style.display = "block";
+    setTimeout(() => bubble.style.display = "none", 10000);
+  }
+}, 1000);
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const revealElements = document.querySelectorAll(".scroll-reveal");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("revealed");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  revealElements.forEach(el => observer.observe(el));
+});
+</script>
+
+<script>
+function chatbotReply() {
+  const input = document.getElementById("chatInput");
+  const log = document.getElementById("chatLog");
+  const msg = input.value.trim().toLowerCase();
+  if (!msg) return;
+  log.innerHTML += `<div class='chat-bubble user-bubble'>${msg}</div>`;
+
+  const typingMsg = document.createElement('div');
+  typingMsg.id = 'typingIndicator';
+  typingMsg.className = 'typing-indicator';
+  typingMsg.innerText = '🤖 SyedBot is thinking...';
+  log.appendChild(typingMsg);
+  log.scrollTop = log.scrollHeight;
+  input.value = "";
+
+  setTimeout(() => {
+    typingMsg.remove();
+
+    // Handle greetings
+    const greetings = ["hi", "hello", "hey"];
+    if (greetings.includes(msg)) {
+      const botBubble = document.createElement('div');
+      botBubble.className = 'chat-bubble bot-bubble';
+      botBubble.innerText = "👋 Hey, how can I help you?";
+      log.appendChild(botBubble);
+      log.scrollTop = log.scrollHeight;
+      return;
+    }
+
+    const fuse = new Fuse(allBooks, {
+      keys: ['title', 'category'],
+      threshold: 0.3
+    });
+
+    let results = fuse.search(msg).map(r => r.item);
+
+    if (results.length === 0) {
+      const subjects = ["math", "science", "english", "urdu", "kashmiri", "history", "geography", "civics", "economics", "political", "foundation", "sst"];
+      const boards = ["ncert", "mtg", "jkbose"];
+      const detectedSubjects = subjects.filter(s => msg.includes(s));
+      const detectedBoards = boards.filter(b => msg.includes(b));
+      const classMatch = msg.match(/class\s*(\d{1,2})/);
+
+      results = allBooks;
+
+      if (detectedBoards.length) {
+        results = results.filter(book => detectedBoards.some(b => book.category.toLowerCase().includes(b)));
+      }
+      if (classMatch) {
+        results = results.filter(book => book.title.toLowerCase().includes("class " + classMatch[1]));
+      }
+      if (detectedSubjects.length) {
+        results = results.filter(book => detectedSubjects.some(sub => book.title.toLowerCase().includes(sub)));
+      }
+    }
+
+    let response = "";
+    if (results.length > 0) {
+      response += `📚 Found ${results.length} book(s):<br/>`;
+      response += results.slice(0, 5).map(b => `✅ ${b.title} – ${b.price}`).join("<br/>");
+      if (results.length > 5) response += "<br/>...and more.";
+    } else {
+      response = "❌ Sorry, I am unable to help you with that. If you are referring to a book, please check manually or contact the owner.";
+    }
+
+    const botBubble = document.createElement('div');
+    botBubble.className = 'chat-bubble bot-bubble';
+    botBubble.innerHTML = response;
+    log.appendChild(botBubble);
+    log.scrollTop = log.scrollHeight;
+  }, 1000);
+}
+</script>
+
+<div class="mobile-nav">
+  <button onclick="toggleSection('books')">📚</button>
+  <button onclick="toggleSection('about')">ℹ️</button>
+  <button onclick="toggleSection('contact')">📞</button>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('reveal');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.hidden-section, .book-card').forEach(el => observer.observe(el));
+});
+</script>
+
+</body>
+</html>
